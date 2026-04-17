@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wireframe – Princípio da Proximidade</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
+
+    :root {
+      --bg: #F4F1EC;
+      --surface: #FFFFFF;
+      --border: #D4CCBC;
+      --text-primary: #1A1714;
+      --text-secondary: #6B6560;
+      --text-muted: #9E9890;
+      --accent: #2A4A7F;
+      --accent-light: #EEF2F9;
+      --divider: #E8E3DA;
+      --bad-bg: #FFF8F0;
+      --bad-border: #E8C9A0;
+      --good-bg: #F0F4FB;
+      --good-border: #A0B8E0;
+      --tag-bg: #E8EDF5;
+      --tag-text: #2A4A7F;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'IBM Plex Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 48px 24px;
+    }
+
+    header {
+      max-width: 900px;
+      margin: 0 auto 48px;
+    }
+
+    header .label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    header p {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .comparison {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    .panel {
+      border-radius: 4px;
+    }
+
+    .panel-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 8px 16px;
+      border-radius: 4px 4px 0 0;
+      font-weight: 600;
+    }
+
+    .panel-label.bad {
+      background: var(--bad-border);
+      color: #7A4A10;
+    }
+
+    .panel-label.good {
+      background: var(--good-border);
+      color: #1A2E50;
+    }
+
+    /* ======== BAD CARD ======== */
+    .card-bad {
+      background: var(--bad-bg);
+      border: 1.5px solid var(--bad-border);
+      border-top: none;
+      border-radius: 0 0 4px 4px;
+      padding: 20px;
+    }
+
+    .card-bad .row {
+      font-size: 13px;
+      color: var(--text-primary);
+      padding: 8px 0;       /* igual para todos */
+      border-bottom: 1px dashed var(--border);
+      display: flex;
+      gap: 8px;
+    }
+
+    .card-bad .row:last-child { border-bottom: none; }
+
+    .card-bad .row strong {
+      color: var(--text-muted);
+      font-weight: 400;
+      min-width: 80px;
+      font-size: 12px;
+    }
+
+    .annotation-bad {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      color: #C0703A;
+      margin-top: 12px;
+      padding: 8px 12px;
+      background: #FDECD8;
+      border-left: 3px solid #C0703A;
+      border-radius: 0 2px 2px 0;
+    }
+
+    /* ======== GOOD CARD ======== */
+    .card-good {
+      background: var(--surface);
+      border: 1.5px solid var(--good-border);
+      border-top: none;
+      border-radius: 0 0 4px 4px;
+      overflow: hidden;
+    }
+
+    .identity-block {
+      background: var(--accent);
+      padding: 20px;
+      color: #fff;
+    }
+
+    .identity-block .name {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;   /* pequeno: mesmo grupo */
+    }
+
+    .identity-block .role {
+      font-size: 13px;
+      font-weight: 400;
+      opacity: 0.85;
+      margin-bottom: 4px;   /* pequeno: mesmo grupo */
+    }
+
+    .identity-block .dept {
+      font-size: 11px;
+      font-family: 'IBM Plex Mono', monospace;
+      opacity: 0.65;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .card-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;   /* GRANDE: separa grupos distintos */
+    }
+
+    .info-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;   /* PEQUENO: itens do mesmo grupo */
+    }
+
+    .group-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .info-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .info-icon {
+      width: 16px;
+      text-align: center;
+      font-size: 12px;
+      flex-shrink: 0;
+      color: var(--text-muted);
+    }
+
+    .info-value {
+      font-size: 13px;
+      color: var(--text-primary);
+    }
+
+    .info-value small {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-left: 4px;
+    }
+
+    /* Spacing annotations */
+    .spacer-annotation {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 4px 0;
+    }
+
+    .spacer-line {
+      flex: 1;
+      border: none;
+      border-top: 1.5px dashed;
+    }
+
+    .spacer-line.small { border-color: #A0B8E0; }
+    .spacer-line.large { border-color: #2A4A7F; }
+
+    .spacer-badge {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 2px;
+      white-space: nowrap;
+      font-weight: 600;
+    }
+
+    .spacer-badge.small {
+      background: #D0DCF0;
+      color: #1A2E50;
+    }
+
+    .spacer-badge.large {
+      background: #2A4A7F;
+      color: #fff;
+    }
+
+    /* Legend */
+    .legend {
+      max-width: 900px;
+      margin: 32px auto 0;
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .legend-dot {
+      width: 28px;
+      height: 2px;
+    }
+
+    .legend-dot.small { background: #A0B8E0; border-top: 1.5px dashed #A0B8E0; }
+    .legend-dot.large { background: #2A4A7F; }
+
+    @media (max-width: 640px) {
+      .comparison { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="label">Etapa 2 — Wireframe Refatorado</div>
+    <h1>Princípio da Proximidade — Profile Card</h1>
+    <p>Comparação antes × depois da aplicação do princípio de agrupamento semântico</p>
+  </header>
+
+  <div class="comparison">
+
+    <!-- ANTES -->
+    <div class="panel">
+      <div class="panel-label bad">✗ &nbsp;Antes — Espaçamento Uniforme</div>
+      <div class="card-bad">
+        <div class="row"><strong>Nome</strong> Dr. Roberto Alcantara</div>
+        <div class="row"><strong>Prédio</strong> Administrativo Central</div>
+        <div class="row"><strong>Cargo</strong> Diretor de Operações Logísticas</div>
+        <div class="row"><strong>E-mail</strong> roberto.alcantara@empresa.com.br</div>
+        <div class="row"><strong>Andar</strong> 4º andar</div>
+        <div class="row"><strong>Depto.</strong> Cadeia de Suprimentos</div>
+        <div class="row"><strong>Tel.</strong> (11) 3333-4444</div>
+        <div class="row"><strong>Sala</strong> 402-B</div>
+        <div class="row"><strong>Celular</strong> (11) 98888-7777</div>
+        <div class="annotation-bad">
+          margin-bottom: 16px para todos os elementos.<br>
+          Nenhuma hierarquia visual → alto esforço cognitivo.
+        </div>
+      </div>
+    </div>
+
+    <!-- DEPOIS -->
+    <div class="panel">
+      <div class="panel-label good">✓ &nbsp;Depois — Proximidade Semântica</div>
+      <div class="card-good">
+
+        <!-- Bloco de Identidade -->
+        <div class="identity-block">
+          <div class="name">Dr. Roberto Alcantara</div>
+          <div class="role">Diretor de Operações Logísticas</div>
+          <div class="dept">Cadeia de Suprimentos</div>
+        </div>
+
+        <div class="card-body">
+
+          <!-- Grupo: Contato -->
+          <div class="info-group">
+            <div class="group-title">Contato</div>
+            <div class="info-row">
+              <span class="info-icon">✉</span>
+              <span class="info-value">roberto.alcantara@empresa.com.br</span>
+            </div>
+            <div class="info-row">
+              <span class="info-icon">☎</span>
+              <span class="info-value">(11) 3333-4444 <small>fixo</small></span>
+            </div>
+            <div class="info-row">
+              <span class="info-icon">📱</span>
+              <span class="info-value">(11) 98888-7777 <small>corporativo</small></span>
+            </div>
+          </div>
+
+          <!-- Anotação gap interno -->
+          <div class="spacer-annotation">
+            <div class="spacer-line small"></div>
+            <span class="spacer-badge small">gap interno: 6px</span>
+            <div class="spacer-line small"></div>
+          </div>
+
+          <!-- Grupo: Localização -->
+          <div class="info-group">
+            <div class="group-title">Localização</div>
+            <div class="info-row">
+              <span class="info-icon">🏢</span>
+              <span class="info-value">Prédio Administrativo Central</span>
+            </div>
+            <div class="info-row">
+              <span class="info-icon">↑</span>
+              <span class="info-value">4º Andar</span>
+            </div>
+            <div class="info-row">
+              <span class="info-icon">▪</span>
+              <span class="info-value">Sala 402-B</span>
+            </div>
+          </div>
+
+          <!-- Anotação gap externo -->
+          <div class="spacer-annotation">
+            <div class="spacer-line large"></div>
+            <span class="spacer-badge large">gap externo: 20px</span>
+            <div class="spacer-line large"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="legend">
+    <strong style="color: var(--text-primary);">Legenda de espaçamento:</strong>
+    <div class="legend-item">
+      <div class="legend-dot small"></div>
+      <span>gap interno (itens do mesmo grupo) = 6px</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot large"></div>
+      <span>gap externo (entre grupos) = 20px</span>
+    </div>
+  </div>
+
+</body>
+</html>

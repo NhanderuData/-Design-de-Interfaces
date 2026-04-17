@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Justificativa Técnica – Princípio da Proximidade</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #f0f2f5;
+      color: #333;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    h1, h2, h3 {
+      color: #2c3e50;
+    }
+
+    h1 {
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 10px;
+      margin-bottom: 30px;
+      font-size: 28px;
+    }
+
+    h2 {
+      margin-top: 40px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #eee;
+      font-size: 22px;
+    }
+
+    .subtitle {
+      color: #7f8c8d;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f8f9fa;
+      font-weight: bold;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+      color: white;
+    }
+
+    .badge-id { background-color: #3498db; }
+    .badge-ct { background-color: #2ecc71; }
+    .badge-loc { background-color: #e67e22; }
+
+    pre {
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-radius: 4px;
+      overflow-x: auto;
+      border: 1px solid #e9ecef;
+      border-left: 4px solid #3498db;
+    }
+
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      color: #d63031;
+      font-size: 14px;
+    }
+    
+    pre code {
+      color: #333;
+    }
+
+    .note {
+      background-color: #e8f4f8;
+      border-left: 4px solid #3498db;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .diagrama {
+      border: 1px solid #ddd;
+      padding: 20px;
+      background: #fdfdfd;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    
+    .diagrama-item {
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 12px;
+      margin-bottom: 5px;
+      text-align: center;
+      border-radius: 4px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+    
+    .diagrama-espaco {
+      text-align: center;
+      font-size: 13px;
+      color: #666;
+      margin: 10px 0;
+      border-left: 1px dashed #ccc;
+      margin-left: 50%;
+      padding-left: 10px;
+    }
+    
+    .diagrama-espaco-grande {
+      margin: 20px 0;
+      color: #3498db;
+      font-weight: bold;
+      border-left: 2px dashed #3498db;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="subtitle">Atividade — Design de Interfaces · Etapas 1, 2 e 3</div>
+  <h1>Justificativa Técnica &amp; Estrutura de Código</h1>
+
+  <section>
+    <h2>Etapa 1 — Análise Semântica e Categorização</h2>
+    <p>A análise dos nove itens brutos identificou três grupos lógicos distintos. O critério de agrupamento foi a <strong>função informacional</strong> de cada dado: o que ele revela sobre a pessoa, como contatá-la e onde encontrá-la fisicamente.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Item Original</th>
+          <th>Grupo Semântico</th>
+          <th>Justificativa</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Dr. Roberto Alcantara</td>
+          <td><span class="badge badge-id">Identidade</span></td>
+          <td>Nome é o elemento de identificação primária; ancora todos os outros dados.</td>
+        </tr>
+        <tr>
+          <td>Diretor de Operações Logísticas</td>
+          <td><span class="badge badge-id">Identidade</span></td>
+          <td>Cargo descreve a função; complemento direto do nome.</td>
+        </tr>
+        <tr>
+          <td>Cadeia de Suprimentos</td>
+          <td><span class="badge badge-id">Identidade</span></td>
+          <td>Departamento é o contexto organizacional da identidade profissional.</td>
+        </tr>
+        <tr>
+          <td>roberto.alcantara@empresa.com.br</td>
+          <td><span class="badge badge-ct">Contato</span></td>
+          <td>Canal digital de comunicação.</td>
+        </tr>
+        <tr>
+          <td>Telefone Fixo: (11) 3333-4444</td>
+          <td><span class="badge badge-ct">Contato</span></td>
+          <td>Canal de voz; agrupa com outros meios de contato direto.</td>
+        </tr>
+        <tr>
+          <td>Celular Corporativo: (11) 98888-7777</td>
+          <td><span class="badge badge-ct">Contato</span></td>
+          <td>Canal de voz/mensagem; mesmo grupo que o fixo.</td>
+        </tr>
+        <tr>
+          <td>Prédio Administrativo Central</td>
+          <td><span class="badge badge-loc">Localização</span></td>
+          <td>Endereço físico macro; introduz o contexto espacial.</td>
+        </tr>
+        <tr>
+          <td>4º Andar</td>
+          <td><span class="badge badge-loc">Localização</span></td>
+          <td>Refinamento vertical do endereço físico.</td>
+        </tr>
+        <tr>
+          <td>Sala 402-B</td>
+          <td><span class="badge badge-loc">Localização</span></td>
+          <td>Granularidade mais específica; completa o endereço interno.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>A ordem de exibição segue a hierarquia de relevância do usuário: primeiro <strong>quem</strong> é a pessoa, depois <strong>como</strong> contatá-la e <strong>onde</strong> ela está.</p>
+  </section>
+
+  <section>
+    <h2>Etapa 2 — Prototipagem Visual</h2>
+    <p>O arquivo <strong>wireframe.html</strong> contém o esboço visual. O diagrama abaixo ilustra a lógica de espaçamento adotada na estrutura:</p>
+
+    <div class="diagrama">
+      <div class="diagrama-item"><strong>IDENTIDADE</strong> (Nome, Cargo, Departamento)</div>
+      
+      <div class="diagrama-espaco diagrama-espaco-grande">espaçamento maior (20px)</div>
+      
+      <div class="diagrama-item">E-mail</div>
+      <div class="diagrama-espaco">espaço menor (6px)</div>
+      <div class="diagrama-item">Telefone Fixo</div>
+      <div class="diagrama-espaco">espaço menor (6px)</div>
+      <div class="diagrama-item">Celular Corporativo</div>
+      
+      <div class="diagrama-espaco diagrama-espaco-grande">espaçamento maior (20px)</div>
+      
+      <div class="diagrama-item">Prédio</div>
+      <div class="diagrama-espaco">espaço menor (6px)</div>
+      <div class="diagrama-item">Andar</div>
+      <div class="diagrama-espaco">espaço menor (6px)</div>
+      <div class="diagrama-item">Sala</div>
+    </div>
+
+    <div class="note">
+      <strong>Lógica do espaçamento:</strong> O espaço entre grupos diferentes é maior do que o espaço entre itens do mesmo grupo. Isso cria uma separação visual clara sem a necessidade de desenhar linhas ou bordas.
+    </div>
+  </section>
+
+  <section>
+    <h2>Etapa 3 — Arquitetura CSS</h2>
+    <p>No arquivo <strong>profile-card.html</strong>, nós aplicamos essa lógica na prática utilizando CSS Flexbox.</p>
+
+<pre><code>/* Definindo as variáveis para os espaçamentos */
+:root {
+  --espaco-pequeno: 6px;  /* Para itens próximos (mesmo grupo) */
+  --espaco-grande: 20px;  /* Para separar as seções principais */
+}
+
+/* Container do conteúdo que separa os grupos */
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-grande); /* Cria a separação maior (20px) */
+}
+
+/* Cada grupo individual de informações */
+.info-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-pequeno); /* Cria o espaçamento menor (6px) */
+}</code></pre>
+
+    <div class="note">
+      Utilizamos a propriedade <code>gap</code> do Flexbox porque ela torna fácil controlar o espaço em branco apenas entre os itens. É uma abordagem mais limpa do que ter que calcular e aplicar <code>margin-bottom</code> de forma individual.
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>

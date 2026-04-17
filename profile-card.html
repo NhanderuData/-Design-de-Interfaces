@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile Card – Implementação</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
+
+    /* ============================================================
+       DESIGN TOKENS
+       ============================================================ */
+    :root {
+      /* Cores */
+      --color-identity-bg:    #1E3A6E;
+      --color-identity-text:  #FFFFFF;
+      --color-card-bg:        #FFFFFF;
+      --color-card-border:    #D8E2F0;
+      --color-group-title:    #8A97AB;
+      --color-divider:        #EEF1F6;
+      --color-text-primary:   #1C2B3A;
+      --color-text-secondary: #4A5A6A;
+      --color-text-muted:     #8A97AB;
+      --color-icon:           #5B7BA8;
+      --color-badge-bg:       #EEF3FA;
+      --color-badge-text:     #1E3A6E;
+
+      /* Espaçamentos ASSIMÉTRICOS — regra central do princípio */
+      --space-intra-group:  6px;   /* entre itens do MESMO grupo   */
+      --space-inter-group: 20px;   /* entre GRUPOS distintos        */
+      --space-card-pad:    20px;
+      --space-identity-pad: 24px;
+
+      /* Tipografia */
+      --font-main:  'IBM Plex Sans', sans-serif;
+      --font-mono:  'IBM Plex Mono', monospace;
+    }
+
+    /* ============================================================
+       RESET & BODY
+       ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-main);
+      background: #EFF3FA;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 16px;
+    }
+
+    /* ============================================================
+       CARTÃO PRINCIPAL (.profile-card)
+       ============================================================ */
+    .profile-card {
+      width: 340px;
+      border-radius: 8px;
+      border: 1.5px solid var(--color-card-border);
+      background: var(--color-card-bg);
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(30, 58, 110, 0.10);
+    }
+
+    /* ============================================================
+       BLOCO DE IDENTIDADE
+       Agrupa: Nome, Cargo, Departamento
+       Itens próximos (gap: --space-intra-group)
+       ============================================================ */
+    .identity {
+      background: var(--color-identity-bg);
+      padding: var(--space-identity-pad);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-intra-group); /* 6px — mesmo grupo semântico */
+    }
+
+    .identity__name {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--color-identity-text);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .identity__role {
+      font-size: 13px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.80);
+    }
+
+    .identity__dept {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.10em;
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    /* ============================================================
+       CORPO DO CARTÃO (.card-body)
+       Usa gap: --space-inter-group para separar grupos distintos
+       ============================================================ */
+    .card-body {
+      padding: var(--space-card-pad);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-inter-group); /* 20px — entre grupos */
+    }
+
+    /* ============================================================
+       GRUPOS DE INFORMAÇÃO (.info-group)
+       Cada grupo = 1 categoria semântica (Contato / Localização)
+       Itens internos: gap: --space-intra-group (6px)
+       ============================================================ */
+    .info-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-intra-group); /* 6px — mesmo grupo */
+    }
+
+    .info-group__title {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--color-group-title);
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--color-divider);
+      margin-bottom: 2px; /* pequena folga visual após o título */
+    }
+
+    /* ============================================================
+       LINHAS DE DADO (.info-row)
+       ============================================================ */
+    .info-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .info-row__icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      color: var(--color-icon);
+      margin-top: 1px;
+    }
+
+    .info-row__content {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .info-row__value {
+      font-size: 13px;
+      color: var(--color-text-primary);
+      line-height: 1.4;
+    }
+
+    .info-row__label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--color-text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <!--
+    ESTRUTURA HTML — Profile Card
+    Grupos semânticos:
+      1. .identity     → Identidade (Nome, Cargo, Departamento)
+      2. .info-group   → Contato    (E-mail, Tel. Fixo, Celular)
+      3. .info-group   → Localização (Prédio, Andar, Sala)
+  -->
+
+  <article class="profile-card" aria-label="Cartão de perfil de Roberto Alcantara">
+
+    <!-- GRUPO 1: IDENTIDADE -->
+    <header class="identity">
+      <h1 class="identity__name">Dr. Roberto Alcantara</h1>
+      <p class="identity__role">Diretor de Operações Logísticas</p>
+      <p class="identity__dept">Cadeia de Suprimentos</p>
+    </header>
+
+    <div class="card-body">
+
+      <!-- GRUPO 2: CONTATO -->
+      <section class="info-group" aria-label="Contato">
+        <h2 class="info-group__title">Contato</h2>
+
+        <div class="info-row">
+          <svg class="info-row__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+          <div class="info-row__content">
+            <span class="info-row__value">roberto.alcantara@empresa.com.br</span>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <svg class="info-row__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.61 4.4 2 2 0 0 1 3.6 2.22h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.16 6.16l.96-.96a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>
+          </svg>
+          <div class="info-row__content">
+            <span class="info-row__value">(11) 3333-4444</span>
+            <span class="info-row__label">Fixo</span>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <svg class="info-row__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+            <line x1="12" y1="18" x2="12.01" y2="18"/>
+          </svg>
+          <div class="info-row__content">
+            <span class="info-row__value">(11) 98888-7777</span>
+            <span class="info-row__label">Celular Corporativo</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- GRUPO 3: LOCALIZAÇÃO -->
+      <section class="info-group" aria-label="Localização">
+        <h2 class="info-group__title">Localização</h2>
+
+        <div class="info-row">
+          <svg class="info-row__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          <div class="info-row__content">
+            <span class="info-row__value">Prédio Administrativo Central</span>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <svg class="info-row__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <polyline points="18 15 12 9 6 15"/>
+          </svg>
+          <div class="info-row__content">
+            <span class="info-row__value">4º Andar</span>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <svg class="info-row__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M9 3v18M15 3v18M3 9h18M3 15h18"/>
+          </svg>
+          <div class="info-row__content">
+            <span class="info-row__value">Sala 402-B</span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </article>
+
+</body>
+</html>
